@@ -14,10 +14,10 @@ Installation requirements
 Git
 
 Installation instruction
-
+Git clone git@github.com:Evereverton28/Phasse-1-Code-Challenge-1.git
 
 Live Link
-Git
+[Git](https://github.com/Evereverton28/Phasse-1-Code-Challenge-1/tree/main/Student-Grade-Generator)
 
 Technologies used
 Javascript
@@ -26,5 +26,7 @@ Support and contact details
 https://github.com/Evereverton28
 
 License
-The content of this site is licenced under 
+The content of this site is licensed under the MIT license
+Copyright (c) 2024.
+
  
