@@ -60,9 +60,9 @@ function calculateNetSalary(basicSalary, benefits) {
     };
 }
 
-const basicSalary = 59000;
-const benefits = 4500;
-const result = calculateNetSalary(basicSalary, benefits);
+let basicSalary = 59000;
+let benefits = 4500;
+let result = calculateNetSalary(basicSalary, benefits);
 
 console.log("Net Salary Calculation Results:");
 console.log("Gross Salary:", result.grossSalary);
