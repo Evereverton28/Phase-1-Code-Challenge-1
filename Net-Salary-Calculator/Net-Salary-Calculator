@@ -1,0 +1,74 @@
+function calculateNetSalary(basicSalary, benefits) {
+    const PAYE_RATES = [
+        { max: 24000, rate: 0.1 },
+        { max: 32333, rate: 0.25 },
+        { max: 500000, rate: 0.3 },
+        { max: 800000, rate: 0.325 },
+        { rate: 0.35 }
+    ];
+    const PERSONAL_RELIEF = 2400;
+    const NHIF_RATES = [
+        { max: 5999, deduction: 150 },
+        { max: 100000, deduction: 1700 }
+    ];
+
+    const NSSF_RATE_TIER1 = 0.06;
+    const NSSF_RATE_TIER2 = 0.06;
+    const NSSF_LIMIT_TIER1 = 6000;
+    const HOUSING_LEVY_RATE = 0.015;
+    const grossSalary = basicSalary + benefits;
+
+    let paye = 0;
+    for (let rate of PAYE_RATES) {
+        if (grossSalary <= rate.max || !rate.max) {
+            paye += (grossSalary - (rate.max ? rate.max : 0) + 1) * rate.rate;
+            break;
+        } else {
+            paye += (rate.max - (rate.min || 0) + 1) * rate.rate;
+        }
+    }
+    paye = Math.max(paye - PERSONAL_RELIEF, 0);
+
+    let nhif = 0;
+    for (let rate of NHIF_RATES) {
+        if (grossSalary <= rate.max || !rate.max) {
+            nhif = rate.deduction;
+            break;
+        }
+    }
+
+    let nssf = 0;
+    if (grossSalary <= NSSF_LIMIT_TIER1) {
+        nssf = grossSalary * NSSF_RATE_TIER1;
+    } else {
+        nssf = NSSF_LIMIT_TIER1 * NSSF_RATE_TIER1 + (grossSalary - NSSF_LIMIT_TIER1) * NSSF_RATE_TIER2;
+    }
+
+    const housingLevy = grossSalary * HOUSING_LEVY_RATE;
+
+    const deductions = paye + nhif + nssf + housingLevy;
+    const netSalary = grossSalary - deductions;
+
+    return {
+        grossSalary,
+        paye,
+        nhif,
+        nssf,
+        housingLevy,
+        deductions,
+        netSalary
+    };
+}
+
+const basicSalary = 59000;
+const benefits = 4500;
+const result = calculateNetSalary(basicSalary, benefits);
+
+console.log("Net Salary Calculation Results:");
+console.log("Gross Salary:", result.grossSalary);
+console.log("PAYE:", result.paye);
+console.log("NHIF Deductions:", result.nhif);
+console.log("NSSF Deductions:", result.nssf);
+console.log("Housing Levy:", result.housingLevy);
+console.log("Total Deductions:", result.deductions);
+console.log("Net Salary:", result.netSalary);
